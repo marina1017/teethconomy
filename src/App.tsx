@@ -30,6 +30,7 @@ function App() {
         🦷 歯医者に行く（-2000円）
       </button>
       <button onClick={nextDay}>⏭️ 次の日へ</button>
+      {state.health === 0 && <p>⚠️ あなたの歯はボロボロです！</p>}
     </div>
   )
 }
