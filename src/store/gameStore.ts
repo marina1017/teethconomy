@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { GameState } from '../types/game'
+import { BRUSH_EFFECTS, BRUSH_PROBABILITIES } from '../constants/gameConstants'
 
 type GameStore = {
   state: GameState
@@ -35,15 +36,15 @@ export const useGameStore = create<GameStore>(set => ({
       //   歯磨きの効果
       let effect = 0
 
-      if (roll < 0.3) {
+      if (roll < BRUSH_PROBABILITIES.LOW) {
         // 適当に磨いた場合
-        effect = 2
-      } else if (roll < 0.7) {
+        effect = BRUSH_EFFECTS.LOW
+      } else if (roll < BRUSH_PROBABILITIES.MEDIUM) {
         // そこそこ磨けた
-        effect = 5
+        effect = BRUSH_EFFECTS.MEDIUM
       } else {
         // 完璧に磨けた
-        effect = 10
+        effect = BRUSH_EFFECTS.HIGH
       }
 
       // 選択肢を記録する
