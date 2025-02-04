@@ -1,7 +1,8 @@
 import { useGameStore } from './store/gameStore'
 
 function App() {
-  const { state, updateHealth, updateMoney, nextDay } = useGameStore()
+  const { state, updateHealth, updateMoney, nextDay, brushTeeth } =
+    useGameStore()
 
   return (
     <div>
@@ -9,6 +10,18 @@ function App() {
       <p>📅 日数: {state.day}</p>
       <p>💰 貯金: {state.money}円</p>
       <p>🦷 歯の健康: {state.health}</p>
+
+      <h2>🪥 歯みがきの選択</h2>
+      <button onClick={() => brushTeeth('morning')}>☀️ 朝の歯みがき</button>
+      <button onClick={() => brushTeeth('afternoon')}>🌞 昼の歯みがき</button>
+      <button onClick={() => brushTeeth('night')}>🌙 夜の歯みがき</button>
+
+      <h2>📜 選択履歴</h2>
+      <ul>
+        {state.choices.map((choice, index) => (
+          <li key={index}>{choice}</li>
+        ))}
+      </ul>
 
       <button onClick={() => updateHealth(-10)}>
         😈 甘いものを食べる（健康-10）
