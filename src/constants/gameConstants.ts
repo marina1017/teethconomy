@@ -22,3 +22,19 @@ export const PENALTIES = {
 export const REWARDS = {
   DENTIST_VISIT: 20, // 歯医者に行くと回復
 }
+
+// 虫歯
+// 虫歯リスクの発生する閾値
+export const CAVITY_RISK_THRESHOLD = 50
+
+// 虫歯の発生確立
+export const CAVITY_PROBABILITY = {
+  LOW: 0.1,
+  HIGH: 0.4,
+}
+
+// 虫歯の影響
+export const CAVITY_EFFECTS = {
+  HEALTH_LOSS: -15, // 虫歯になった場合の健康減少
+  MONEY_LOSS: -3000, // 治療費（お金の減少）
+}

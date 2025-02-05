@@ -4,10 +4,17 @@ import {
   BRUSH_EFFECTS,
   BRUSH_PROBABILITIES,
   PENALTIES,
+  CAVITY_EFFECTS,
+  CAVITY_PROBABILITY,
+  CAVITY_RISK_THRESHOLD,
 } from '../constants/gameConstants'
 
 type GameStore = {
+  // ゲームの状態のstate
   state: GameState
+  // UIの状態管理
+  isResultPage: boolean
+  setIsResultPage: (value: boolean) => void
   updateHealth: (value: number) => void
   updateMoney: (value: number) => void
   nextDay: () => void
@@ -22,6 +29,8 @@ export const useGameStore = create<GameStore>(set => ({
     choices: [],
     brushedToday: { morning: false, afternoon: false, night: false },
   },
+  isResultPage: false,
+  setIsResultPage: value => set({ isResultPage: value }),
   updateHealth: value =>
     set(store => ({
       state: { ...store.state, health: store.state.health + value },
@@ -32,11 +41,29 @@ export const useGameStore = create<GameStore>(set => ({
     })),
   nextDay: () => {
     set(store => {
-      // 次の日を押したら一回も磨かなかった場合のペナルティを計算
       const { morning, afternoon, night } = store.state.brushedToday
       let healthPenalty = 0
+      let cavityEvent = ''
+
+      // 次の日を押したら一回も磨かなかった場合のペナルティを計算
       if (!morning && !afternoon && !night) {
         healthPenalty = PENALTIES.NO_BRUSHING // 1回も磨かなかったらペナルティ
+      }
+
+      // 次の日を押したら虫歯チェックをする
+      const cavityRoll = Math.random()
+      //   歯の健康が閾値以下だったら虫歯の確立が変わる
+      const cavityChance =
+        store.state.health < CAVITY_RISK_THRESHOLD
+          ? CAVITY_PROBABILITY.HIGH
+          : CAVITY_PROBABILITY.LOW
+
+      if (cavityRoll < cavityChance) {
+        // 虫歯によってさらに歯の健康が減る
+        healthPenalty += CAVITY_EFFECTS.HEALTH_LOSS
+        // 虫歯によってさらにお金も減る
+        store.state.money += CAVITY_EFFECTS.MONEY_LOSS
+        cavityEvent = `⚠️ 虫歯になりました！（-${CAVITY_EFFECTS.HEALTH_LOSS}健康, -${CAVITY_EFFECTS.MONEY_LOSS}円）`
       }
 
       return {
@@ -44,10 +71,12 @@ export const useGameStore = create<GameStore>(set => ({
           ...store.state,
           day: store.state.day + 1,
           health: Math.max(0, store.state.health + healthPenalty),
+          money: Math.max(0, store.state.money),
           choices: [
             ...store.state.choices,
             `Next day (${healthPenalty} health penalty)`,
-          ],
+            cavityEvent,
+          ].filter(Boolean),
           brushedToday: { morning: false, afternoon: false, night: false },
         },
       }
