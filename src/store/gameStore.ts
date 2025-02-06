@@ -28,6 +28,7 @@ export const useGameStore = create<GameStore>(set => ({
     money: 5000,
     choices: [],
     brushedToday: { morning: false, afternoon: false, night: false },
+    yearlyExpenses: [],
   },
   isResultPage: false,
   setIsResultPage: value => set({ isResultPage: value }),
@@ -41,6 +42,14 @@ export const useGameStore = create<GameStore>(set => ({
     })),
   nextDay: () => {
     set(store => {
+      const newDay = store.state.day + 1
+      const newExpenses =
+        newDay % 365 === 0
+          ? [
+              ...store.state.yearlyExpenses,
+              { year: newDay / 365, cost: Math.random() * 10000 },
+            ]
+          : store.state.yearlyExpenses
       const { morning, afternoon, night } = store.state.brushedToday
       let healthPenalty = 0
       let cavityEvent = ''
@@ -78,6 +87,7 @@ export const useGameStore = create<GameStore>(set => ({
             cavityEvent,
           ].filter(Boolean),
           brushedToday: { morning: false, afternoon: false, night: false },
+          yearlyExpenses: newExpenses,
         },
       }
     })

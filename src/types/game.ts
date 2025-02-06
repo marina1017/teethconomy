@@ -10,4 +10,5 @@ export type GameState = {
   money: number //医療費
   choices: string[] //選択肢
   brushedToday: BrushedToday
+  yearlyExpenses: { year: number; cost: number }[] //年間の医療費
 }
