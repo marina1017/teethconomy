@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface TeethVisualizationPropos {
   health: number
@@ -16,26 +16,60 @@ const TeethVisualization: React.FC<TeethVisualizationPropos> = ({ health }) => {
 
   // 歯の数を決める(健康が悪いほど抜ける)
   const totalTeeth = 16
-  const missingTeeth = Math.max(0, Math.floor((100 - health) / 20))
-  const teethArray = Array.from(
-    { length: totalTeeth },
-    (_, i) => i >= totalTeeth - missingTeeth
-  )
+  const [missingTeeth, setMissingTeeth] = useState<Set<number>>(new Set())
+
+  useEffect(() => {
+    setMissingTeeth(prev => {
+      const newMissingTeeth = new Set(prev)
+      const missingTeethCount = Math.max(0, Math.floor((100 - health) / 20))
+      while (newMissingTeeth.size < missingTeethCount) {
+        newMissingTeeth.add(Math.floor(Math.random() * totalTeeth))
+      }
+      return newMissingTeeth
+    })
+  }, [health])
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
-      {teethArray.map((isMissing, i) => (
-        <div
-          key={i}
-          style={{
-            width: '20px',
-            height: '30px',
-            backgroundColor: isMissing ? 'transparent' : getToothColor(health),
-            border: '1px solid #000',
-            borderRadius: '5px',
-          }}
-        ></div>
-      ))}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '5px',
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div
+            key={i}
+            style={{
+              width: '20px',
+              height: '30px',
+              backgroundColor: missingTeeth.has(i)
+                ? 'transparent'
+                : getToothColor(health),
+              border: '1px solid #000',
+              borderRadius: '5px 5px 2px 2px',
+            }}
+          ></div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div
+            key={i}
+            style={{
+              width: '20px',
+              height: '30px',
+              backgroundColor: missingTeeth.has(i + 8)
+                ? 'transparent'
+                : getToothColor(health),
+              border: '1px solid #000',
+              borderRadius: '2px 2px 5px 5px',
+            }}
+          ></div>
+        ))}
+      </div>
     </div>
   )
 }
