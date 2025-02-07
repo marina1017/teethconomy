@@ -19,19 +19,55 @@ type GameStore = {
   updateMoney: (value: number) => void
   nextDay: () => void
   brushTeeth: (time: 'morning' | 'afternoon' | 'night') => void
+  nextDecade: (choice: 'checkup' | 'electricBrush' | 'nothing') => void
 }
 
 export const useGameStore = create<GameStore>(set => ({
   state: {
-    day: 1,
-    health: 100,
-    money: 5000,
-    choices: [],
-    brushedToday: { morning: false, afternoon: false, night: false },
+    age: 20, // 一旦二十歳スタートで、10歳スタートにして歯科検診みたいなのでもいいかも
+    health: 100, // 健康度はmaxからスタート
+    money: 50000, // 貯金
+    lifestyle: 'normal', // 選択肢によっては変化するかも？
     yearlyExpenses: [],
   },
   isResultPage: false,
   setIsResultPage: value => set({ isResultPage: value }),
+  nextDecade: (choice: 'checkup' | 'electricBrush' | 'nothing') =>
+    set(store => {
+      const newAge = store.state.age + 10
+      let cost = 0
+      let healthChange = 0
+
+      if (choice === 'checkup') {
+        cost = 10000 //検診費用
+        healthChange = +10
+      } else if (choice === 'electricBrush') {
+        cost = 5000 // 電動歯ブラシ
+        healthChange = +5
+      } else {
+        healthChange = -15
+      }
+
+      // 病気のリスク(後で変える)
+      const diseaseRisk = Math.max(0, (100 - store.state.health) / 100)
+      if (Math.random() < diseaseRisk) {
+        const treatmentConst = Math.random() < 0.5 ? 30000 : 100000
+        cost += treatmentConst
+      }
+
+      return {
+        state: {
+          ...store.state,
+          age: newAge,
+          money: store.state.money - cost,
+          health: Math.max(0, store.state.health + healthChange),
+          yearlyExpenses: [
+            ...store.state.yearlyExpenses,
+            { year: newAge, cost },
+          ],
+        },
+      }
+    }),
   updateHealth: value =>
     set(store => ({
       state: { ...store.state, health: store.state.health + value },

@@ -10,14 +10,14 @@ import {
 } from 'recharts'
 
 function ResultPage() {
-  const { state, setIsResultPage } = useGameStore()
+  const { state } = useGameStore()
 
   return (
     <div>
       <h1>🔍 10年後の結果</h1>
-      <p>📅 最終日数: {state.day}</p>
-      <p>💰 最終貯金: {state.money}円</p>
-      <p>🦷 最終健康: {state.health}</p>
+      <p>📅 年齢: {state.age}歳</p>
+      <p>💰 貯金: {state.money.toLocaleString()}円</p>
+      <p>🦷 健康レベル: {state.health}</p>
 
       <h3>医療費の推移</h3>
       {state.yearlyExpenses.length > 0 ? (
@@ -38,8 +38,6 @@ function ResultPage() {
       ) : (
         <p>📉 データがありません</p>
       )}
-
-      <button onClick={() => setIsResultPage(false)}>⬅️ ゲームに戻る</button>
     </div>
   )
 }
