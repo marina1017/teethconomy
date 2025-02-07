@@ -1,8 +1,9 @@
 import { useGameStore } from './store/gameStore'
 import ResultPage from './pages/ResultPage'
+import TeethVisualization from './components/TeethVisualization'
 
 function App() {
-  const { state, isResultPage, nextDecade } = useGameStore()
+  const { state, nextDecade } = useGameStore()
 
   return (
     <div>
@@ -14,6 +15,9 @@ function App() {
           <p>📅 現在の年齢: {state.age}歳</p>
           <p>💰 貯金: {state.money.toLocaleString()}円</p>
           <p>🦷 健康レベル: {state.health}</p>
+
+          {/* 🦷 歯の状態の可視化 */}
+          <TeethVisualization health={state.health} />
 
           <h3>次の10年の行動を選んでください</h3>
           <div>
