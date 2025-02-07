@@ -15,12 +15,13 @@ const TeethVisualization: React.FC<TeethVisualizationPropos> = ({ health }) => {
   }
 
   // 歯の数を決める(健康が悪いほど抜ける)
-  const totalTeeth = 16
+  const totalTeeth = 32
   const [missingTeeth, setMissingTeeth] = useState<Set<number>>(new Set())
 
   useEffect(() => {
     setMissingTeeth(prev => {
       const newMissingTeeth = new Set(prev)
+      // ここ後で抜け方を考える　よりリアルにしたい
       const missingTeethCount = Math.max(0, Math.floor((100 - health) / 20))
       while (newMissingTeeth.size < missingTeethCount) {
         newMissingTeeth.add(Math.floor(Math.random() * totalTeeth))
@@ -39,7 +40,7 @@ const TeethVisualization: React.FC<TeethVisualizationPropos> = ({ health }) => {
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 16 }).map((_, i) => (
           <div
             key={i}
             style={{
@@ -55,7 +56,7 @@ const TeethVisualization: React.FC<TeethVisualizationPropos> = ({ health }) => {
         ))}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 16 }).map((_, i) => (
           <div
             key={i}
             style={{

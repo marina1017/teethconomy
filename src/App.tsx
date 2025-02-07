@@ -11,7 +11,11 @@ function App() {
         <ResultPage />
       ) : (
         <div>
-          <h1>🦷 歯の健康シミュレーター</h1>
+          <h1>TeethConomy</h1>
+          <h2>歯の健康を守れ</h2>
+          <p>
+            歯を守ることはhogehogehogehogheogehogehogehogehogheogehogehogehogehogheogehogehogehogehogheogehogehogehogehogheoge
+          </p>
           <p>📅 現在の年齢: {state.age}歳</p>
           <p>💰 貯金: {state.money.toLocaleString()}円</p>
           <p>🦷 健康レベル: {state.health}</p>

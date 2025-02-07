@@ -14,12 +14,15 @@ function ResultPage() {
 
   return (
     <div>
-      <h1>🔍 10年後の結果</h1>
+      <h1>Result</h1>
+      <h2>80歳到達 歯はどれくらい守れた？</h2>
       <p>📅 年齢: {state.age}歳</p>
       <p>💰 貯金: {state.money.toLocaleString()}円</p>
       <p>🦷 健康レベル: {state.health}</p>
 
-      <h3>医療費の推移</h3>
+      <h2>最終的な歯の状態</h2>
+
+      <h2>医療費の推移</h2>
       {state.yearlyExpenses.length > 0 ? (
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={state.yearlyExpenses}>
@@ -38,6 +41,8 @@ function ResultPage() {
       ) : (
         <p>📉 データがありません</p>
       )}
+      <h2>歯を守ることに対する経済効果</h2>
+      <p>hogehogehoegehogehogehogehogheo</p>
     </div>
   )
 }
