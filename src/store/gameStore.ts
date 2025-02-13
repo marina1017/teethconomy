@@ -40,10 +40,10 @@ export const useGameStore = create<GameStore>(set => ({
 
       if (choice === 'checkup') {
         cost = 10000 //検診費用
-        healthChange = +10
+        healthChange = 0
       } else if (choice === 'electricBrush') {
         cost = 5000 // 電動歯ブラシ
-        healthChange = +5
+        healthChange = 0
       } else {
         healthChange = -15
       }
