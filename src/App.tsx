@@ -40,13 +40,20 @@ function App() {
         <div className="content">
           <div className="header">
             <h1 className="header-title">TeethConomy</h1>
-            <h2 className="header-subtitle">歯の健康を守れ</h2>
+            <h2 className="header-subtitle">
+              ~歯の健康シミュレーションゲーム~
+            </h2>
           </div>
+          <p className="description">あなたの歯は、一生のパートナー！</p>
           <p className="description">
-            歯を守ることはhogehogehogehogheogehogehogehogehogheogehogehogehogehogheogehogehogehogehogheogehogehogehogehogheoge
+            このゲームでは、日々の歯のケアが将来の健康や医療費にどれだけ影響するのかをシミュレーションできます。
+            あなたの選択次第で、80歳になったときの歯の状態が大きく変わります。
+            電動歯ブラシを使う？ 定期検診を受ける？ それとも何もしない？
           </p>
           <p className="description">
-            hogehogehogehogheogehogehogehogehogheogehogehogehogehogheogehogehogehogehogheogehogehogehogehogheoge
+            気をつけないと、将来、高額な治療費やインプラントが必要になるかも…？
+            逆に、しっかりケアすれば、健康な歯で長く過ごせる！
+            さあ、あなたはどんな選択をしますか？
           </p>
           <div className="stats">
             <p className="stats-item">

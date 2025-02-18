@@ -5,7 +5,7 @@
   /* あとで変数にする */
   background: #222;
   color: white;
-  padding: 20px;
+  padding: 40px;
 }
 
 .content {
@@ -30,11 +30,13 @@
 }
 
 .description {
-  text-align: center;
+  text-align: left;
   font-size: 1em;
   color: #ccc;
-  margin-left: 5em;
-  margin-right: 5em;
+  max-width: 450px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .stats {
@@ -72,6 +74,10 @@
       transparent 0
     );
     mask: radial-gradient(circle at center, transparent 60%, black 62%);
+  }
+
+  &-label {
+    font-size: 10px;
   }
 }
 
