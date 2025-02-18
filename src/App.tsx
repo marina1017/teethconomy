@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useGameStore } from './store/gameStore'
 import ResultPage from './pages/ResultPage'
 import TeethVisualization from './components/TeethVisualization'
 import DiagnosisModal from './components/DiagnosisModal'
+import './App.scss'
 
 function App() {
   const { state, nextDecade } = useGameStore()
@@ -32,41 +33,68 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="app-container">
       {state.age >= 80 ? (
         <ResultPage />
       ) : (
-        <div>
-          <h1>TeethConomy</h1>
-          <h2>歯の健康を守れ</h2>
-          <p>
+        <div className="content">
+          <div className="header">
+            <h1 className="header-title">TeethConomy</h1>
+            <h2 className="header-subtitle">歯の健康を守れ</h2>
+          </div>
+          <p className="description">
             歯を守ることはhogehogehogehogheogehogehogehogehogheogehogehogehogehogheogehogehogehogehogheogehogehogehogehogheoge
           </p>
-          <p>📅 現在の年齢: {state.age}歳</p>
-          <p>💰 貯金: {state.money.toLocaleString()}円</p>
-          <p>🦷 健康レベル: {state.health}</p>
-
-          {/* 🦷 歯の状態の可視化 */}
-          <TeethVisualization health={state.health} />
-
-          <h3>次の10年の行動を選んでください</h3>
-          <div>
-            <button onClick={handleCheckup} disabled={actionTaken}>
-              🩺 定期検診を受ける (1万円)
-            </button>
-            <button
-              onClick={() => handleActionSelection('electricBrush')}
-              disabled={actionTaken}
-            >
-              🪥 電動歯ブラシを使う (5000円)
-            </button>
-            <button
-              onClick={() => handleActionSelection('nothing')}
-              disabled={actionTaken}
-            >
-              🚫 何もしない (無料)
-            </button>
+          <p className="description">
+            hogehogehogehogheogehogehogehogehogheogehogehogehogehogheogehogehogehogehogheogehogehogehogehogheoge
+          </p>
+          <div className="stats">
+            <p className="stats-item">
+              <span className="stats-number">{state.age}</span>
+              <span className="stats-label">現在の年齢</span>
+              <span
+                className="stats-progress"
+                // これ後でもう少しいい方法がないか探す
+                style={
+                  {
+                    '--progress': (state.age / 80) * 100,
+                  } as React.CSSProperties
+                }
+              ></span>
+            </p>
+            <p className="stats-item">貯金: {state.money.toLocaleString()}円</p>
+            <p className="stats-item">健康レベル: {state.health}</p>
           </div>
+          <div className="teeth-container">
+            <TeethVisualization health={state.health} />
+          </div>
+          <div className="action">
+            <h3 className="action-title">次の10年の行動を選んでください</h3>
+            <div className="actions">
+              <button
+                className="actions-button checkup"
+                onClick={handleCheckup}
+                disabled={actionTaken}
+              >
+                🩺 定期検診を受ける (1万円)
+              </button>
+              <button
+                className="actions-button electric-brush"
+                onClick={() => handleActionSelection('electricBrush')}
+                disabled={actionTaken}
+              >
+                🪥 電動歯ブラシを使う (5000円)
+              </button>
+              <button
+                className="actions-button nothing"
+                onClick={() => handleActionSelection('nothing')}
+                disabled={actionTaken}
+              >
+                🚫 何もしない (無料)
+              </button>
+            </div>
+          </div>
+
           {isModalOpen && (
             <DiagnosisModal
               onClose={() => setIsModalOpen(false)}
