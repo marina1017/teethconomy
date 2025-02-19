@@ -58,6 +58,10 @@ function App() {
             <p className="description-text">
               さあ、あなたはどんな選択をしますか？
             </p>
+
+            <p className="description-annotation">
+              このコンテンツでは、定期検診を約3000円、虫歯の治療費を3000円、インプラントを30万として計算しています
+            </p>
           </div>
 
           <div className="stats">
@@ -121,21 +125,21 @@ function App() {
                 onClick={handleCheckup}
                 disabled={actionTaken}
               >
-                🩺 定期検診を受ける (1万円)
+                定期検診を受ける (1万円)
               </button>
               <button
                 className="actions-button electric-brush"
                 onClick={() => handleActionSelection('electricBrush')}
                 disabled={actionTaken}
               >
-                🪥 電動歯ブラシを使う (5000円)
+                フロスを使って丁寧に磨く (5000円)
               </button>
               <button
                 className="actions-button nothing"
                 onClick={() => handleActionSelection('nothing')}
                 disabled={actionTaken}
               >
-                🚫 何もしない (無料)
+                何もしない (無料)
               </button>
             </div>
           </div>
