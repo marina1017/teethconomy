@@ -44,33 +44,71 @@ function App() {
               ~歯の健康シミュレーションゲーム~
             </h2>
           </div>
-          <p className="description">あなたの歯は、一生のパートナー！</p>
-          <p className="description">
-            このゲームでは、日々の歯のケアが将来の健康や医療費にどれだけ影響するのかをシミュレーションできます。
-            あなたの選択次第で、80歳になったときの歯の状態が大きく変わります。
-            電動歯ブラシを使う？ 定期検診を受ける？ それとも何もしない？
-          </p>
-          <p className="description">
-            気をつけないと、将来、高額な治療費やインプラントが必要になるかも…？
-            逆に、しっかりケアすれば、健康な歯で長く過ごせる！
-            さあ、あなたはどんな選択をしますか？
-          </p>
-          <div className="stats">
-            <p className="stats-item">
-              <span className="stats-number">{state.age}</span>
-              <span className="stats-label">現在の年齢</span>
-              <span
-                className="stats-progress"
-                // これ後でもう少しいい方法がないか探す
-                style={
-                  {
-                    '--progress': (state.age / 80) * 100,
-                  } as React.CSSProperties
-                }
-              ></span>
+          <div className="description">
+            <p className="description-title">歯は一生のパートナー！</p>
+            <p className="description-text">
+              このゲームでは、日々の歯のケアが将来の健康や医療費にどれだけ影響するのかをシミュレーションできます。
+              あなたの選択次第で、80歳になったときの歯の状態が大きく変わります。
+              フロスを使う？ 定期検診を受ける？ それとも何もしない？
             </p>
-            <p className="stats-item">貯金: {state.money.toLocaleString()}円</p>
-            <p className="stats-item">健康レベル: {state.health}</p>
+            <p className="description-text">
+              気をつけないと、将来、高額な治療費やインプラントが必要になるかも…？
+              逆に、しっかりケアすれば、健康な歯で長く過ごせるはず！
+            </p>
+            <p className="description-text">
+              さあ、あなたはどんな選択をしますか？
+            </p>
+          </div>
+
+          <div className="stats">
+            <div className="stats-item">
+              <div className="stats-item-circle">
+                <span className="stats-item-number">
+                  {state.age}
+                  <span className="stats-item-unit">歳</span>
+                </span>
+                <span
+                  className="stats-item-progress"
+                  style={
+                    {
+                      '--progress': ((state.age - 20) / (80 - 20)) * 100,
+                    } as React.CSSProperties
+                  }
+                ></span>
+              </div>
+              <span className="stats-item-label">現在の年齢</span>
+            </div>
+            <div className="stats-item">
+              <div className="stats-item-circle">
+                <span className="stats-item-number">
+                  {state.money.toLocaleString()}
+                  <span className="stats-item-unit">円</span>
+                </span>
+                <span
+                  className="stats-item-progress"
+                  style={
+                    {
+                      '--progress': (state.money / 100000) * 100,
+                    } as React.CSSProperties
+                  }
+                ></span>
+              </div>
+              <span className="stats-item-label">貯金</span>
+            </div>
+            <div className="stats-item">
+              <div className="stats-item-circle">
+                <span className="stats-item-number">{state.health}</span>
+                <span
+                  className="stats-item-progress"
+                  style={
+                    {
+                      '--progress': (state.health / 100) * 100,
+                    } as React.CSSProperties
+                  }
+                ></span>
+              </div>
+              <span className="stats-item-label">健康スコア</span>
+            </div>
           </div>
           <div className="teeth-container">
             <TeethVisualization health={state.health} />
