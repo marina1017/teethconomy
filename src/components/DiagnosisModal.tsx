@@ -1,23 +1,24 @@
 import { useState, useEffect } from 'react'
 import './DiagnosisModal.css'
+import { useUIStore } from '../store/uiStore'
 
-const DiagnosisModal = ({
-  onClose,
-  onComplete,
-}: {
-  onClose: () => void
-  onComplete: (cost: number, healthImpact: number) => void
-}) => {
+interface DiagnosisModalProps {
+  onClose: (cost: number, healthImpact: number) => void
+}
+
+const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ onClose }) => {
+  const { isModalOpen, closeModal, setActionTaken } = useUIStore()
   const [status, setStatus] = useState<'loading' | 'done'>('loading')
   const [result, setResult] = useState<null | {
     message: string
     cost: number
-    helthImpact: number
+    healthImpact: number
   }>(null)
 
   useEffect(() => {
+    if (!isModalOpen) return
+
     setTimeout(() => {
-      // ここ後で健康度によって発生割合を変える
       const random = Math.random()
       let diagnosis
       if (random < 0.4) {
@@ -43,9 +44,16 @@ const DiagnosisModal = ({
       }
       setResult(diagnosis)
       setStatus('done')
-      onComplete(diagnosis.cost, diagnosis.healthImpact)
-    }, 3000)
-  }, [])
+    }, 1000)
+  }, [isModalOpen])
+
+  const handleClose = () => {
+    if (result) {
+      onClose(result.cost, result.healthImpact)
+    }
+    closeModal()
+    setActionTaken(false)
+  }
 
   return (
     <div className="modal-overlay">
@@ -55,7 +63,7 @@ const DiagnosisModal = ({
         ) : (
           <>
             <p className="result-text">{result?.message}</p>
-            <button onClick={onClose} className="close-button">
+            <button onClick={handleClose} className="close-button">
               閉じる
             </button>
           </>

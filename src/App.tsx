@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useGameStore } from './store/gameStore'
+import { useUIStore } from './store/uiStore'
 import ResultPage from './pages/ResultPage'
 import TeethVisualization from './components/TeethVisualization'
 import DiagnosisModal from './components/DiagnosisModal'
@@ -7,29 +8,28 @@ import './App.scss'
 
 function App() {
   const { state, nextDecade } = useGameStore()
-  // 診察時のモーダル
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  // モーダル表示時に行動を制御
-  const [actionTaken, setActionTaken] = useState(false)
+  const { isModalOpen, openModal, closeModal, actionTaken, setActionTaken } =
+    useUIStore()
 
   //定期検診時のモーダルの閉じるボタンが押されたとき
   const handleDiagnosisComplete = (cost: number, healthImpact: number) => {
     state.money = Math.max(0, state.money - cost)
     state.health = Math.max(0, state.health - healthImpact)
+    closeModal()
     setActionTaken(false)
   }
 
   // 定期検診を受けたとき
   const handleCheckup = () => {
     nextDecade('checkup')
-    setIsModalOpen(true)
+    openModal()
     setActionTaken(true)
   }
 
-  // 電動歯ブラシか何もしないを選んだとき
+  // フロスか何もしないを選んだとき
   const handleActionSelection = (action: 'electricBrush' | 'nothing') => {
     nextDecade(action)
-    // setActionTaken(true)
+    setActionTaken(false)
   }
 
   return (
@@ -119,6 +119,9 @@ function App() {
           </div>
           <div className="action">
             <h3 className="action-title">次の5年の行動を選んでください</h3>
+            {isModalOpen && (
+              <DiagnosisModal onClose={handleDiagnosisComplete} />
+            )}
             <div className="actions">
               <button
                 className="actions-button checkup"
@@ -143,15 +146,6 @@ function App() {
               </button>
             </div>
           </div>
-
-          {isModalOpen && (
-            <DiagnosisModal
-              onClose={() => setIsModalOpen(false)}
-              onComplete={(cost, healthImpact) =>
-                handleDiagnosisComplete(cost, healthImpact)
-              }
-            />
-          )}
         </div>
       )}
     </div>
