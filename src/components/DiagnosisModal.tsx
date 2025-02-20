@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import './DiagnosisModal.css'
+import './DiagnosisModal.scss'
 import { useUIStore } from '../store/uiStore'
 
 interface DiagnosisModalProps {
@@ -56,15 +56,15 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ onClose }) => {
   }
 
   return (
-    <div className="modal-overlay">
+    <div className="modal">
       <div className="modal-container">
         {status === 'loading' ? (
           <p className="loading-text">「歯医者で診察を受けます...」</p>
         ) : (
           <>
             <p className="result-text">{result?.message}</p>
-            <button onClick={handleClose} className="close-button">
-              閉じる
+            <button onClick={handleClose} className="modal-close-button">
+              ✗
             </button>
           </>
         )}
