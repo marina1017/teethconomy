@@ -60,7 +60,7 @@ function App() {
             </p>
 
             <p className="description-annotation">
-              このコンテンツでは、定期検診を約3000円、虫歯の治療費を3000円、インプラントを30万として計算しています
+              このコンテンツでは、定期検診を約3000円、虫歯の治療費を3000円、インプラントを30万として計算しています。
             </p>
           </div>
 
@@ -118,7 +118,7 @@ function App() {
             <TeethVisualization health={state.health} />
           </div>
           <div className="action">
-            <h3 className="action-title">次の10年の行動を選んでください</h3>
+            <h3 className="action-title">次の5年の行動を選んでください</h3>
             <div className="actions">
               <button
                 className="actions-button checkup"
@@ -139,7 +139,7 @@ function App() {
                 onClick={() => handleActionSelection('nothing')}
                 disabled={actionTaken}
               >
-                何もしない (無料)
+                普段通り歯を磨く(0円)
               </button>
             </div>
           </div>
