@@ -1,3 +1,45 @@
+// ゲームの設定
+
+/////////////////////////////
+// 初期値の設定
+/////////////////////////////
+export const LIFE_STYLE = {
+  HEALTHY: 'healthy',
+  NORMAL: 'normal',
+  UNHEALTHY: 'unhealthy',
+}
+
+export const DEFAULT = {
+  AGE: 20, // 一旦二十歳スタートで、10歳スタートにして歯科検診みたいなのでもいいかも
+  HEALTH: 100,
+  MONEY: 1000000, //デフォルト100万
+  LIFE_STYLE: LIFE_STYLE.NORMAL,
+}
+
+/////////////////////////////
+// ゲーム自体の設定
+/////////////////////////////
+
+// 何年おきに選択が発生するか
+export const GAME_PROGRESS_YEARS = 5
+
+// 定期検診にかかる値段(年４回)
+export const CHECKUP_COST = 3000 * 4 * GAME_PROGRESS_YEARS
+
+// 定期検診でアップする健康スコア
+export const CHECKUP_HEALTH_BOOST = 10
+
+// 何もしない場合の変更スコアの減少量
+export const NO_ACTION_HEALTH_LOSS = 10
+
+// 変更を害するリスクの確率
+export const DISEASE_RISK_FACTOR = 10
+
+//
+export const TREATMENT_COST_LOW = 3000
+
+export const TREATMENT_COST_HIGH = 100000
+
 //歯磨きの磨き方の効果
 export const BRUSH_EFFECTS = {
   LOW: 2, // 適当に磨いた場合

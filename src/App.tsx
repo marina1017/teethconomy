@@ -27,7 +27,7 @@ function App() {
   }
 
   // フロスか何もしないを選んだとき
-  const handleActionSelection = (action: 'electricBrush' | 'nothing') => {
+  const handleActionSelection = (action: 'flossing' | 'nothing') => {
     nextDecade(action)
     setActionTaken(false)
   }
