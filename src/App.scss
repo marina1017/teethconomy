@@ -81,8 +81,8 @@
 
   &-item-circle {
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     background: radial-gradient(circle at center, #000 50%, #00ffff 100%);
     color: white;
     border-radius: 50%;
@@ -114,7 +114,7 @@
   }
 
   &-item-unit {
-    font-size: 0.7em;
+    font-size: 0.5em;
     font-weight: bold;
     z-index: 2;
   }
