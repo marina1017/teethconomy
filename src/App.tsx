@@ -10,6 +10,7 @@ import {
   CHECKUP,
   CHECKUP_TOTAL_COST,
   GAME_PROGRESS_YEARS,
+  FLOSS,
 } from './constants/gameConstants'
 
 function App() {
@@ -83,7 +84,10 @@ function App() {
                   className="stats-item-progress"
                   style={
                     {
-                      '--progress': ((state.age - 20) / (80 - 20)) * 100,
+                      '--progress':
+                        ((state.age - DEFAULT.AGE) /
+                          (DEFAULT.FINAL_AGE - DEFAULT.AGE)) *
+                        100,
                     } as React.CSSProperties
                   }
                 ></span>
@@ -100,7 +104,7 @@ function App() {
                   className="stats-item-progress"
                   style={
                     {
-                      '--progress': (state.money / 100000) * 100,
+                      '--progress': (state.money / DEFAULT.MONEY) * 100,
                     } as React.CSSProperties
                   }
                 ></span>
@@ -114,7 +118,7 @@ function App() {
                   className="stats-item-progress"
                   style={
                     {
-                      '--progress': (state.health / 100) * 100,
+                      '--progress': (state.health / DEFAULT.HEALTH) * 100,
                     } as React.CSSProperties
                   }
                 ></span>
@@ -126,7 +130,9 @@ function App() {
             <TeethVisualization health={state.health} />
           </div>
           <div className="action">
-            <h3 className="action-title">次の5年の行動を選んでください</h3>
+            <h3 className="action-title">
+              次の{GAME_PROGRESS_YEARS}年の行動を選んでください
+            </h3>
             {isModalOpen && (
               <DiagnosisModal onClose={handleDiagnosisComplete} />
             )}
@@ -134,16 +140,16 @@ function App() {
               <button
                 className="actions-button checkup"
                 onClick={handleCheckup}
-                disabled={actionTaken || state.money < 60000}
+                disabled={actionTaken || state.money < CHECKUP_TOTAL_COST}
               >
-                定期検診を受ける (6万円)
+                定期検診を受ける ({CHECKUP_TOTAL_COST}万円)
               </button>
               <button
                 className="actions-button electric-brush"
                 onClick={() => handleActionSelection('flossing')}
-                disabled={actionTaken || state.money < 5000}
+                disabled={actionTaken || state.money < FLOSS.COST}
               >
-                フロスを使って丁寧に磨く (5000円)
+                フロスを使って丁寧に磨く ({FLOSS.COST}円)
               </button>
               <button
                 className="actions-button nothing"
