@@ -53,9 +53,6 @@ function ResultPage() {
           <p className="result-item-description">
             歯の健康を守ることは、将来の自分への投資です。定期的なケアをすることで、虫歯や歯周病のリスクを減らし、高額な治療費を避けることができます。一方で、歯の健康を軽視すると、治療のために数十万円もの出費が必要になり、経済的な負担が大きくなってしまいます。小さな努力を積み重ねることで、生涯の医療費を抑え、健康な歯で快適に過ごすことができます。あなたの選択が、未来の生活に大きな影響を与えるのです。
           </p>
-          {/* <p className="result-item-description">
-            hogehogehogehgoehogehogehogehgoehogehogehogehgoehogehogehogehgoehogehogehogehgoehogehogehogehgoehogehogehogehgoe
-          </p> */}
         </div>
       </div>
     </div>

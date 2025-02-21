@@ -11,6 +11,7 @@ import {
   CHECKUP_TOTAL_COST,
   GAME_PROGRESS_YEARS,
   FLOSS,
+  DIAGNOSIS_RESULTS,
 } from './constants/gameConstants'
 
 function App() {
@@ -69,7 +70,10 @@ function App() {
             <p className="description-annotation">
               このコンテンツでは、定期検診を約{CHECKUP_TOTAL_COST}円(1回
               {CHECKUP.COST}円 年{CHECKUP.TIME}回 ×{GAME_PROGRESS_YEARS}
-              年として)、虫歯の治療費を3000円、インプラントを30万として計算しています。
+              年として)、虫歯の治療費を{DIAGNOSIS_RESULTS.cavity.cost}
+              円、歯周病の治療費を{DIAGNOSIS_RESULTS.periodontitis.cost}円
+              、インプラントを{DIAGNOSIS_RESULTS.implant.cost}
+              万として計算しています。
             </p>
           </div>
 
