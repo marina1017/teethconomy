@@ -3,14 +3,10 @@ import { GameState } from '../types/game'
 import {
   DEFAULT,
   GAME_PROGRESS_YEARS,
-  CHECKUP_COST,
-  CHECKUP_HEALTH_BOOST,
-  FLOSS_COST,
-  FLOSS_HEALTH_BOOST,
+  CHECKUP,
+  CHECKUP_TOTAL_COST,
+  FLOSS,
   NO_ACTION_HEALTH_LOSS,
-  DISEASE_RISK_FACTOR,
-  TREATMENT_COST_LOW,
-  TREATMENT_COST_HIGH,
 } from '../constants/gameConstants'
 
 type GameStore = {
@@ -42,28 +38,15 @@ export const useGameStore = create<GameStore>(set => ({
 
       if (choice === 'checkup') {
         // 検診費用
-        cost = CHECKUP_COST
-        healthChange = CHECKUP_HEALTH_BOOST
+        cost = CHECKUP_TOTAL_COST
+        healthChange = CHECKUP.HEALTH_BOOST
       } else if (choice === 'flossing') {
         // フロスを使ってしっかり歯磨き
-        cost = FLOSS_COST
-        healthChange = FLOSS_HEALTH_BOOST
+        cost = FLOSS.COST
+        healthChange = FLOSS.HEALTH_BOOST
       } else {
         // 何もしない場合
         healthChange = -NO_ACTION_HEALTH_LOSS
-      }
-
-      // 病気のリスク
-      let diseaseRisk =
-        Math.max(0, (100 - store.state.health) / 100) * DISEASE_RISK_FACTOR
-      if (choice === 'checkup') diseaseRisk *= 0.5
-      if (choice === 'flossing') diseaseRisk *= 0.8
-
-      // 病気のリスクによってコストがかかる
-      if (Math.random() < diseaseRisk) {
-        const treatmentConst =
-          Math.random() < 0.5 ? TREATMENT_COST_LOW : TREATMENT_COST_HIGH
-        cost += treatmentConst
       }
 
       return {
@@ -71,7 +54,7 @@ export const useGameStore = create<GameStore>(set => ({
           ...store.state,
           age: newAge,
           money: store.state.money - cost,
-          health: Math.max(0, store.state.health + healthChange),
+          health: Math.max(0, Math.min(100, store.state.health + healthChange)),
           yearlyExpenses: [
             ...store.state.yearlyExpenses,
             { year: newAge, cost },

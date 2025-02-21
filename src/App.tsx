@@ -5,6 +5,12 @@ import ResultPage from './pages/ResultPage'
 import TeethVisualization from './components/TeethVisualization'
 import DiagnosisModal from './components/DiagnosisModal'
 import './App.scss'
+import {
+  DEFAULT,
+  CHECKUP,
+  CHECKUP_TOTAL_COST,
+  GAME_PROGRESS_YEARS,
+} from './constants/gameConstants'
 
 function App() {
   const { state, nextDecade } = useGameStore()
@@ -34,7 +40,7 @@ function App() {
 
   return (
     <div className="app-container">
-      {state.age >= 80 ? (
+      {state.age >= DEFAULT.FINAL_AGE ? (
         <ResultPage />
       ) : (
         <div className="content">
@@ -60,7 +66,9 @@ function App() {
             </p>
 
             <p className="description-annotation">
-              このコンテンツでは、定期検診を約3000円、虫歯の治療費を3000円、インプラントを30万として計算しています。
+              このコンテンツでは、定期検診を約{CHECKUP_TOTAL_COST}円(1回
+              {CHECKUP.COST}円 年{CHECKUP.TIME}回 ×{GAME_PROGRESS_YEARS}
+              年として)、虫歯の治療費を3000円、インプラントを30万として計算しています。
             </p>
           </div>
 
@@ -126,14 +134,14 @@ function App() {
               <button
                 className="actions-button checkup"
                 onClick={handleCheckup}
-                disabled={actionTaken}
+                disabled={actionTaken || state.money < 60000}
               >
-                定期検診を受ける (1万円)
+                定期検診を受ける (6万円)
               </button>
               <button
                 className="actions-button electric-brush"
-                onClick={() => handleActionSelection('electricBrush')}
-                disabled={actionTaken}
+                onClick={() => handleActionSelection('flossing')}
+                disabled={actionTaken || state.money < 5000}
               >
                 フロスを使って丁寧に磨く (5000円)
               </button>

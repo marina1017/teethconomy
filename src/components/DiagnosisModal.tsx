@@ -20,7 +20,8 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ onClose }) => {
 
   // 健康スコアによって病気発見の確率を変える
   const getAdjustedProbabilities = (health: number) => {
-    const baseProbabilities = DIAGNOSIS_RESULTS.map(d => d.baseProbability)
+    const diagnosisArray = Object.values(DIAGNOSIS_RESULTS)
+    const baseProbabilities = diagnosisArray.map(d => d.baseProbability)
     // 健康スコアが低いほど、インプラント確率を上げる
     const implantRiskFactor = 1 + (100 - health) / 100
     baseProbabilities[3] *= implantRiskFactor // インプラントの確率だけ上げる
@@ -36,17 +37,18 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ onClose }) => {
     setTimeout(() => {
       const probabilities = getAdjustedProbabilities(state.health)
       const random = Math.random()
-      let accumulated = 0
-      let selectedDiagnosis: (typeof DIAGNOSIS_RESULTS)[number] =
-        DIAGNOSIS_RESULTS[0]
 
-      for (let i = 0; i < probabilities.length; i++) {
-        accumulated += probabilities[i]
-        if (random < accumulated) {
-          selectedDiagnosis = DIAGNOSIS_RESULTS[i]
-          break
-        }
-      }
+      // 確率に基づいて診断結果を決定
+      const diagnosisArray = Object.values(DIAGNOSIS_RESULTS)
+      const selectedDiagnosis = diagnosisArray.reduce(
+        (acc, diagnosis, index) => {
+          const accumulated = acc.probability + probabilities[index]
+          return random < accumulated
+            ? { diagnosis, probability: accumulated }
+            : acc
+        },
+        { diagnosis: diagnosisArray[0], probability: 0 }
+      ).diagnosis
 
       setResult(selectedDiagnosis)
       setStatus('done')
